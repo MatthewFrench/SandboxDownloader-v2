@@ -240,7 +240,7 @@ namespace AutoCompilerForGameServer
             var slnPath = Path.Combine(path, "GameServer.sln");
             var msbuildProcess = new Process
             {
-                StartInfo = new ProcessStartInfo(Path.Combine(executingDirectory, "MSBuild.exe"))
+                StartInfo = new ProcessStartInfo(/*Path.Combine(executingDirectory, "MSBuild.exe")*/ "C:\\Program Files (x86)\\Microsoft Visual Studio\\2017\\BuildTools\\MSBuild\\15.0\\Bin\\amd64\\MSBuild.exe")
                 {// /t:Build,AfterBuild
                     Arguments = $"\"{slnPath}\" /verbosity:minimal /property:Configuration=" +configurationMode
                 }
@@ -269,7 +269,7 @@ namespace AutoCompilerForGameServer
             if (configJSON == "")
             {
                 var path2 = Path.Combine(executingDirectory, gameServerSourceFileName);
-                configJSON = File.ReadAllText(Path.Combine(path2, "GameServerApp", "Settings", "GameInfo.json.template"));
+                configJSON = File.ReadAllText(Path.Combine(path2, "GameServerConsole", "Settings", "GameInfo.json.template"));
             }
             Directory.CreateDirectory(Path.Combine(path, "Settings"));
             File.WriteAllText(Path.Combine(path, "Settings", "GameInfo.json"), configJSON);
@@ -311,7 +311,7 @@ namespace AutoCompilerForGameServer
 
             logicDurationWatch.Start();
             
-            var oldCompiledPath = Path.Combine(executingDirectory, gameServerSourceFileName, "GameServerApp", "bin", configurationMode);
+            var oldCompiledPath = Path.Combine(executingDirectory, gameServerSourceFileName, "GameServerConsole", "bin", configurationMode);
             var newCompiledPath = Path.Combine(executingDirectory, copyBuildToFolder);
             
             if (Directory.Exists(newCompiledPath) && Directory.EnumerateFileSystemEntries(newCompiledPath).Any())
@@ -322,7 +322,7 @@ namespace AutoCompilerForGameServer
             CopyDirectory(oldCompiledPath, newCompiledPath, true);
 
             //Copy gamemode data
-            var oldModePath = Path.Combine(executingDirectory, gameServerSourceFileName, "GameServerApp", "Content", "GameMode");
+            var oldModePath = Path.Combine(executingDirectory, gameServerSourceFileName, "GameServerConsole", "Content", "GameMode");
             var newModePath = Path.Combine(executingDirectory, copyBuildToFolder, "Content", "GameMode");
             if (!Directory.Exists(newModePath))
             {
